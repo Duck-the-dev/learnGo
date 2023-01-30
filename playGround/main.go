@@ -1,35 +1,40 @@
 package main
 
-import (
-	"fmt"
-	"io"
-	"net/http"
-	"net/url"
-)
-
-const MyUrl string = "http://127.0.0.1:5500/learnGo/HTML_extractor/index.html"
+import "fmt"
 
 func main() {
-	res, err := url.Parse(MyUrl)
-	if err != nil {
-		fmt.Println(err)
-	}
-	resp, err := http.Get(MyUrl)
+	var chose string
 
-	if err != nil {
-		fmt.Println(err)
+	for {
+		fmt.Println("Choose one of the end points : ")
+		fmt.Println("1. /get")
+		fmt.Println("2. /getData")
+		fmt.Println("3. /post")
+		fmt.Println("4. /postform")
+		fmt.Println("----------")
+		fmt.Println("Enter 'Q' to Quit the App")
 
-	}
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
+		fmt.Scanln(&chose)
+		switch chose {
+		case "1":
+			GetReq()
+			continue
+		case "2":
+			GetJson()
+			continue
+		case "3":
+			PostReq()
+			continue
+		case "4":
+			PostFormReq()
+			continue
+		case "q", "Q":
+			panic("Thank you and see you soon")
+
+		default:
+			fmt.Println("Invalid choice, Try again")
+			continue
 
 		}
-	}(resp.Body)
-
-	fmt.Println(resp.Header["Date"])
-	fmt.Println(res.Host)
-	fmt.Println(res.Path)
-	fmt.Println(res.Port())
-	fmt.Println(res.Scheme)
+	}
 }
